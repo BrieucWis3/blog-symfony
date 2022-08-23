@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition d'un article{% endblock %}
+
+{% block body %}
+    
+<!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<section class="container my-3">
+    <div class="row">
+        <div class="col">
+            <h1>Ajout d'un article</h1>
+
+            {{ form_start(articleForm) }}
+                <fieldset class="mb-3 col-6">
+                    {{ form_row(articleForm.title) }}
+                    {{ form_row(articleForm.subject) }}
+                    {{ form_row(articleForm.keywords) }}
+                    {{ form_row(articleForm.textKeyword) }}
+                    {{ form_row(articleForm.content) }}
+                    <div>
+                        <label for="inputPassword" class="col-sm-4 col-form-label">Image : </label>
+                        <div>
+                        {{ form_row(articleForm.image) }}
+                        </div>
+                    </div>
+                    
+                </fieldset>
+                
+                <button type="submit" class="btn btn-primary btn-lg" class="my-3">Publier</button>
+                <a class="btn btn-secondary" href="{{ path('article') }}">Annuler</a>
+            {{ form_end(articleForm) }}
+        </div>
+    </div>
+</section>
+        
+<script>
+$('select').selectpicker();
+</script>
+    
+{% endblock %}

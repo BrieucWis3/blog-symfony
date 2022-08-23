@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+
+<section class="container my-3">
+    <div class="row">
+        <div class="col">
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+				
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+                
+                <h1 class="h3 mb-3 font-weight-normal">Veuillez vous identifier</h1>
+                <div class="mb-3 row">
+                    <label for="emailInput" class="col-sm-2 col-form-label">Email :</label>
+                    <div class="col-sm-4">
+                      <input type="text" value="{{ last_username }}" name="email" id="emailInput" class="form-control" 
+                             autocomplete="username" required autofocus>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Mot de passe :</label>
+                    <div class="col-sm-4">
+                      <input type="password" name="password" id="inputPassword" class="form-control" 
+                             autocomplete="current-password" required>
+                    </div>
+                </div>
+                             
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                
+                <button class="btn btn-lg btn-primary" type="submit">Se connecter</button>
+                <a class="btn btn-secondary" href='{{ path('forgotten_password') }}'>Mot de passe oublié</a>
+                <br /><br />
+                <p>Pas encore de compte ? <a href='{{ path('app_register') }}'>S'inscrire ici</a></p>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

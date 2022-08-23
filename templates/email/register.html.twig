@@ -1,0 +1,4 @@
+<h1>Activez votre compte myBlog</h1>
+<p>Bonjour {{ user.firstname }}, pour activer votre compte, veuillez cliquer sur ce lien :</p>
+<a href="{{ absolute_url(path('verif_user', {token: token})) }}", >Activer maintenant</a>
+<p>Attention : ce lien expirera dans 3 heures</p>

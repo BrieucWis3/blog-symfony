@@ -2,18 +2,84 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}myBlog{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+        {% block stylesheets %}{% endblock %}
+        
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+            
+        {% block javascripts %}{% endblock %}
     </head>
+    
     <body>
-        {% block body %}{% endblock %}
+        
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{{ path('app_main') }}">myBlog</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ path('app_main') }}">A propos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ path('article') }}">Articles</a>
+              </li>
+              
+            </ul>
+            {% if(app.user) %}
+            <div class="d-flex">
+               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Mon compte</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="{{ path('app_logout') }}">Se déconnecter</a>
+                </li>
+               </ul>   
+            </div>
+            {% else %}
+            <div class="d-flex">
+               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{{ path('app_login') }}">Se connecter</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="{{ path('app_register') }}">S'inscrire</a>
+                </li>
+               </ul>   
+            </div>
+            {% endif %}
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-primary" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+    </nav>
+    
+    {% if app.user and app.user.isVerified == false %}
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <strong>Votre compte n'est pas activé</strong>, <a href="{{ path('resend_verif') }}">
+                renvoyer le lien d'activation</a>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %} 
+            
+    {% for label, messages in app.flashes %}
+        <div class="alert alert-{{ label }} alert-dismissible" role="alert">
+            {% for message in messages %}
+                {{ message | raw }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            {% endfor %}
+        </div>
+    {% endfor %}
+        
+    {% block body %} {% endblock %}
+    
     </body>
 </html>

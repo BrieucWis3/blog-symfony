@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+<section class="container my-3">
+    <div class="row">
+            <h1 class="text-center">Les articles</h1>
+    </div>
+    <div class="row">
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="col">
+            <a class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i>Gérer les articles</a>
+        </div>
+        {% endif %}
+        <div style="text-align:right;" class="col">
+            
+            <a type="button" class="btn btn-primary" href="{{ path('add_article') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" 
+                     class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 
+                          1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                </svg>
+             Ajouter un article
+            </a>
+        </div>
+    </div>
+    <div class="card mt-3">
+        <div class="card-body row">
+           {% for article in articles %}
+               <div class="card col-3" style="width: 18rem;">
+                {% if article.image %}
+                   <img src="C:/wamp64/www/blog-symfony/public/uploads/public/uploads/{{ article.image.name }}" class="card-img-top" alt="...">
+                {% else %}
+                    <img src="C:/wamp64/www/blog-symfony/public/uploads/f11ba611bf84f95d71b4d23826f2d03d.jpg" class="card-img-top" alt="...">
+                {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">{{ article.title }}</h5>
+                  <p class="card-text">{{ article.subject }}</p>
+                  <div>
+                      {% for keyword in article.keywords %}
+                          <span class="badge bg-secondary">{{ keyword.name }}</span>
+                      {% endfor %}
+                  </div>
+                  <a href="#" class="btn btn-primary">Lire l'article</a>
+                </div>
+              </div>
+           {% endfor %}
+        </div>
+    </div>
+        
+</section>
+{% endblock %}
