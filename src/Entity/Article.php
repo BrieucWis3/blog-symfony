@@ -40,7 +40,7 @@ class Article
     #[ORM\OneToOne(mappedBy: 'article', targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private $image;
 
-    #[ORM\ManyToMany(targetEntity: Keyword::class, mappedBy: 'articles', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToMany(targetEntity: Keyword::class, mappedBy: 'articles', cascade: ['persist'])]
     private $keywords;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, orphanRemoval: true)]

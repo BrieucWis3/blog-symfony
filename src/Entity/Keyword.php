@@ -18,7 +18,7 @@ class Keyword
     #[ORM\Column(type: 'string', length: 50)]
     private $name;
 
-    #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'keywords', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'keywords', cascade: ['persist'])]
     private $articles;
 
     public function __construct()

@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edition d'un article{% endblock %}
+{% if article.title %}
+    {% set title = "Edition de l'article n°" ~ article.id %}
+{% else %}
+    {% set title = "Ajout d'un article" %}
+{% endif %}
+    
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
     
@@ -13,7 +19,7 @@
 <section class="container my-3">
     <div class="row">
         <div class="col">
-            <h1>Ajout d'un article</h1>
+            <h1>{{ title }}</h1>
 
             {{ form_start(articleForm) }}
                 <fieldset class="mb-3 col-6">

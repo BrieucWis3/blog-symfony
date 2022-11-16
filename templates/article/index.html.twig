@@ -10,11 +10,16 @@
     <div class="row">
         {% if is_granted('ROLE_ADMIN') %}
         <div class="col">
-            <a class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i>Gérer les articles</a>
+            <a href="{{ path('admin.article') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle-fill"></i>Gérer les articles
+            </a>
+            <a href="" class="btn btn-primary">
+                <i class="bi bi-plus-circle-fill"></i>Gérer les mots-clés
+            </a>    
         </div>
         {% endif %}
+        {% if app.user %}
         <div style="text-align:right;" class="col">
-            
             <a type="button" class="btn btn-primary" href="{{ path('add_article') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" 
                      class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
@@ -24,25 +29,30 @@
              Ajouter un article
             </a>
         </div>
+        {% endif %}        
     </div>
     <div class="card mt-3">
-        <div class="card-body row">
+        <div class="card-body row mx-4">
            {% for article in articles %}
-               <div class="card col-3" style="width: 18rem;">
+               <div class="card col-3 mx-4 my-2" style="width: 18rem;">
                 {% if article.image %}
-                   <img src="C:/wamp64/www/blog-symfony/public/uploads/public/uploads/{{ article.image.name }}" class="card-img-top" alt="...">
+                   <img src="/uploads/{{ article.image.name }}" class="card-img-top" style="width: 100%; height: 150px">
                 {% else %}
-                    <img src="C:/wamp64/www/blog-symfony/public/uploads/f11ba611bf84f95d71b4d23826f2d03d.jpg" class="card-img-top" alt="...">
+                    <img src="/uploads/f11ba611bf84f95d71b4d23826f2d03d.jpg" class="card-img-top" style="width: 100%; height: 150px">
                 {% endif %}
                 <div class="card-body">
                   <h5 class="card-title">{{ article.title }}</h5>
                   <p class="card-text">{{ article.subject }}</p>
                   <div>
                       {% for keyword in article.keywords %}
+                          {% if keyword.name != "Autre" %}
                           <span class="badge bg-secondary">{{ keyword.name }}</span>
+                          {% endif %}
                       {% endfor %}
                   </div>
-                  <a href="#" class="btn btn-primary">Lire l'article</a>
+                  <a href="{{ path('show', {slug: article.slug, source: 'public'}) }}" class="btn btn-primary mt-2">
+                      Lire l'article
+                  </a>
                 </div>
               </div>
            {% endfor %}
