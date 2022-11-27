@@ -173,5 +173,25 @@ class ArticleController extends AbstractController
             'article' => $article
         ]);
     }
+    
+    #[Route('/article/delete/{id}', name: 'article.delete')]
+    public function delete(ArticleRepository $articleRepo, Article $article, EntityManagerInterface $em): Response
+    {
+        $idArticle=$article->getId();
+        $em->remove($article);
+        $em->flush();
+        
+        $this->addFlash('primary', "L'article n°" . $idArticle . " a été supprimé");
+        
+        if($this->getUser()->getRoles()==["ROLE_ADMIN"])
+        {
+            $returnRoute='admin.article';
+        }
+        else 
+        {
+            $returnRoute='user.article';
+        }
+        return $this->redirectToRoute($returnRoute);
+    }
 }
 
